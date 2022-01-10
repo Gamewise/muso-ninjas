@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /playlists/{docId}{
+      allow read, create: if request.auth != null; //if the user is logged in, allow them to read and create
+      allow delete, update: if request.auth.uid == resource.data.userId; //only delete and update documents where the id of the user making the request matches the userId of the document they're trying to update or delete
+    }
+  }
+}

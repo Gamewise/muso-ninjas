@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /covers/{userId}/{document=**}{  //userId here is whatever the name of the folder is
+      allow read, create: if request.auth!=null; //if the user is logged in, allow them to read and create
+      allow delete, update: if request.auth.uid == userId; //only delete and update documents where the id of the user making the request matches the userId captured above
+
+    }
+  }
+}
